@@ -1,0 +1,117 @@
+CMPUT 350 Assignment 1
+Due Wednesday Sep. 30, 22:00
+
+Submit your solutions using astep like so:
+
+  astep -c c350 -p assign1 README Point.cpp String.h String.cpp Set.h Set.cpp 
+
+(copy & paste this line into a terminal window whose working directory
+contains those files)
+
+The provided .h files can only be modified to add private methods and members.
+However, all the method implementations need to be in the .cpp files. You can 
+add more tests to the main*.cpp files, but note that these will not be 
+submitted.
+
+Don't wait until the last minute. Similar to the lab exercises you may submit
+your files multiple times. Also, always say Y when asked whether this is the
+primary submission.
+
+In this assignment you can't use C++ containers or functions from external C++
+libraries such as STL or Boost. However, you can use standard C libraries.
+
+Your submissions will be marked considering their correctness
+(syntax+semantics), documentation, efficiency, and coding style. 
+You can lose points for not adding assert
+statements to check important pre/post-conditions, not having comments
+where appropriate, and TONS of points if the compiler shows errors or 
+warnings when compiling your program.
+
+Also make sure that you follow the course's collaboration policy which is
+stated on the course webpage. README must be completed.
+
+========================================================================
+
+1. [11 marks] Implement class defined in Point.h. It should compile
+using
+
+              g++ -Wall -Wextra -std=c++11 Point.cpp mainPoint.cpp
+
+without errors nor warnings.
+
+========================================================================
+
+2. [12 marks] Implement a C++ string class in files String.h and String.cpp
+   following the coding style and comment suggestions presented in the
+   lecture.
+
+Strings are immutable, like in Java, i.e. once created, Strings cannot be
+changed. This allows us to save memory when copying Strings by storing
+character sequences in shared objects that are reference-counted. I.e.,
+whenever a String is created, a shared object is allocated that contains the
+character sequence with an initial reference count of 1. Later, whenever a
+String gets copied or assigned, the count is incremented and the new copy just
+points to the shared object. When Strings are deleted, the reference count is
+decremented. Once the count reaches 0, the shared object is no longer in use
+and can be destroyed. In the shared objects, strings are stored as C-strings,
+i.e. 0-terminated char arrays.
+
+You may add private data members and methods to the class definition.
+
+Your code has to compile using
+
+              g++ -Wall -Wextra -std=c++11 String.cpp mainString.cpp -o string
+
+without generating errors nor warnings.
+
+Make sure your implementation does not leak memory by testing it thoroughly
+creating, assigning, copying, and destroying thousands of Strings and running
+valgrind. See mainString.cpp for some examples.
+
+============================================================================
+
+3. [16 marks] Implement a memory efficient set class in files Set.h and Set.cpp
+following the coding style and comment suggestions presented in the lecture.
+
+The sets considered here represent subsets of { 0..n-1 } and are implemented
+in terms of bit sequences stored in int arrays. For instance, for n = 4,
+integer 6 = 0110 in binary represents set {1,2}. Each int can hold a certain
+number of bits (use static const INT_BITS = sizeof(int)*8 in your code).
+For example, if in your machine sizeof(int) is 4, then any number smaller
+than 4*8=32 can be stored in just 1 int. Your
+code needs to allocate a large enough int array to store n bits (how many
+integers do you need exactly?) (Bit i) = 1 indicates that element i is
+contained in the set. Use bit operations & | ~ to test, set, and negate
+bits. E.g. the following test checks whether bit i is set in integer y:
+
+  if ((1 << i) & y) ... ,
+
+(b | c) computes the union of two bit sets encoded as integers b and c,
+(b & c) computes the intersection, and 
+~b      computes the complement set of b.
+
+Sets are sole owners of their data, i.e. data aren't shared when copying or
+assigning sets and therefore have to be allocated and copied. Also, in
+assignments, the lhs and rhs sets must have identical n's.
+
+You may add private data members and methods to the class definition.
+
+Your code has to compile using
+
+              g++ -Wall -Wextra -std=c++11 Set.cpp mainSet.cpp -o set
+
+without generating errors nor warnings.
+
+Make sure your implementation does not leak memory by testing it
+thoroughly. We suggest using valgrind. Also add assertions that ensure that
+sets are compatible and elements are within range 0..n-1. See mainSet.cpp for
+some examples.
+
+Assertions work as follows:
+
+#include <cassert>
+...
+assert(i >= 0);   // if i < 0 the program will stop here with an error message
+
+To make your program faster after convincing yourself that it is correct,
+checking assertions can be switched off by passing -DNDEBUG to the compiler.
