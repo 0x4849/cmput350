@@ -25,12 +25,27 @@ int main()
   c.scale(3); 
   std::cout<<c.length();
   std::cout<<std::endl;
-
+  
+  // output: 
+  //(19900, -19900)
+  //(0, 0)
+  //1
+  //10.8167
+  
+  Point z;
+  Point k = z;
+  std::cout<<k.equals(z);
+  std::cout<<std::endl;
+  /* Output:
+   * 1   */
+  std::cout<<k.equals(c);
+  std::cout<<std::endl;  
+  // Output : 0
+  
+  std::cout<<k.length();
+  std::cout<<std::endl;
+  // Output : 0
+  
   return 0;
 }
-// output: 
-//(19900, -19900)
-//(0, 0)
-//1
-//10.8167
 

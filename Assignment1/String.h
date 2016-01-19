@@ -37,10 +37,9 @@ private:
   {
     char *data; // 0-terminated char array
     size_t n;      // number of non-0 characters in string
-    size_t count;  // reference count, how many Strings share this object?
+    size_t count;
   };
-  
-  SharedData *shared;
+struct  SharedData *shared;
 };
 
 #endif
